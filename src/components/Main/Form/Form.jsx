@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
   TextField,
@@ -13,16 +13,22 @@ import {
 
 import useStyles from "./styles";
 import { ExpenseTrackerContext } from "../../../context/context";
+import {
+  incomeCategories,
+  expenseCategories,
+} from "../../../constants/categories";
+import formatDate from "../../../utils/formatDate";
 
 const initialState = {
-  amount: 0,
+  amount: "",
   category: "",
   type: "Income",
-  date: new Date(),
+  date: formatDate(new Date()),
 };
 
 const Form = () => {
   const [formData, setFormData] = useState(initialState);
+  const [error, setError] = useState(false);
   const { addTransaction } = useContext(ExpenseTrackerContext);
   const classes = useStyles();
 
@@ -32,9 +38,23 @@ const Form = () => {
       amount: Number(formData.amount),
       id: uuidv4(),
     };
+
+    if (
+      !formData.category ||
+      !formData.type ||
+      !formData.amount ||
+      !formData.date
+    ) {
+      setError(true);
+      return;
+    }
     addTransaction(transaction);
     setFormData(initialState);
+    setError(false);
   }
+
+  const selectedCategories =
+    formData.type === "Income" ? incomeCategories : expenseCategories;
 
   return (
     <Grid container spacing={2}>
@@ -64,7 +84,11 @@ const Form = () => {
               setFormData({ ...formData, category: e.target.value })
             }
           >
-            <MenuItem value="business">Business</MenuItem>
+            {selectedCategories?.map((category, index) => (
+              <MenuItem value={category.type} key={index}>
+                {category.type}
+              </MenuItem>
+            ))}
             <MenuItem value="salary">Salary</MenuItem>
           </Select>
         </FormControl>
@@ -90,7 +114,7 @@ const Form = () => {
       <Button
         variant="outlined"
         fullWidth
-        color="primary"
+        color={`${error ? "secondary" : "primary"}`}
         className={classes.button}
         onClick={createTransaction}
       >

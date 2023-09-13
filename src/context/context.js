@@ -18,7 +18,6 @@ const reducer = (state, action) => {
       transactions = [action.payload, ...state];
 
       return transactions;
-      break;
 
     default:
       return state;
@@ -35,8 +34,6 @@ export const Provider = ({ children }) => {
   const deleteTransaction = (id) => {
     dispatch({ type: "DELETE_TRANSACTION", payload: id });
   };
-
-  console.log(transactions);
 
   return (
     <ExpenseTrackerContext.Provider
