@@ -1,20 +1,23 @@
 import React, { useContext } from "react";
 import { Card, CardHeader, CardContent, Typography } from "@material-ui/core";
-import { Doughnut } from "react-chartjs-2";
+import { Doughnut, Bar } from "react-chartjs-2";
+// import "chart.js";
+
+import { ExpenseTrackerContext } from "../../context/context";
+import useTransactions from "../../useTransactions";
 
 import useStyles from "./styles";
-import { ExpenseTrackerContext } from "../../context/context";
 
 const Details = ({ title }) => {
-  const { transactions } = useContext(ExpenseTrackerContext);
+  const { chartData, totalAmount } = useTransactions(title);
   const classes = useStyles();
 
   return (
     <Card className={title === "Income" ? classes.income : classes.expense}>
       <CardHeader title={title} />
       <CardContent>
-        <Typography variant="h5">$50</Typography>
-        {/* <Doughnut data="DATA" /> */}
+        <Typography variant="h5">${totalAmount}</Typography>
+        <Bar data={chartData} />
       </CardContent>
     </Card>
   );

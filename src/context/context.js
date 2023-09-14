@@ -35,6 +35,8 @@ export const Provider = ({ children }) => {
     dispatch({ type: "DELETE_TRANSACTION", payload: id });
   };
 
+
+  console.log(transactions);
   return (
     <ExpenseTrackerContext.Provider
       value={{ transactions, addTransaction, deleteTransaction }}

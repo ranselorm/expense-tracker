@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import useStyles from "./styles";
 import {
   Card,
@@ -8,13 +8,11 @@ import {
   Grid,
   Divider,
 } from "@material-ui/core";
-import { ExpenseTrackerContext } from "../../context/context";
 
 import Form from "./Form/Form";
 import List from "./List/List";
 
 const Main = () => {
-  const { appName } = useContext(ExpenseTrackerContext);
   const classes = useStyles();
 
   return (
