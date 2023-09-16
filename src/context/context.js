@@ -2,7 +2,7 @@ import React, { useReducer, createContext } from "react";
 
 export const ExpenseTrackerContext = createContext();
 
-const initialState = [];
+const initialState = JSON.parse(localStorage.getItem("transactions")) || [];
 
 const reducer = (state, action) => {
   let transactions;
@@ -12,10 +12,12 @@ const reducer = (state, action) => {
       transactions = state.filter(
         (transaction) => transaction.id !== action.payload
       );
+      localStorage.setItem("transactions", JSON.stringify(transactions));
       return transactions;
 
     case "ADD_TRANSACTION":
       transactions = [action.payload, ...state];
+      localStorage.setItem("transactions", JSON.stringify(transactions));
 
       return transactions;
 
@@ -34,7 +36,6 @@ export const Provider = ({ children }) => {
   const deleteTransaction = (id) => {
     dispatch({ type: "DELETE_TRANSACTION", payload: id });
   };
-
 
   console.log(transactions);
   return (

@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Card, CardHeader, CardContent, Typography } from "@material-ui/core";
-import { Doughnut, Bar } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 // import "chart.js";
 
-import { ExpenseTrackerContext } from "../../context/context";
 import useTransactions from "../../useTransactions";
 
 import useStyles from "./styles";
@@ -17,7 +16,7 @@ const Details = ({ title }) => {
       <CardHeader title={title} />
       <CardContent>
         <Typography variant="h5">${totalAmount}</Typography>
-        <Bar data={chartData} />
+        <Doughnut data={chartData} />
       </CardContent>
     </Card>
   );
