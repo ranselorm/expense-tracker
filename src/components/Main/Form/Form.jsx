@@ -18,6 +18,7 @@ import {
   expenseCategories,
 } from "../../../constants/categories";
 import formatDate from "../../../utils/formatDate";
+import CustomizedSnackbar from "../../Snackbar/Snackbar";
 
 const initialState = {
   amount: "",
@@ -29,6 +30,7 @@ const initialState = {
 const Form = () => {
   const [formData, setFormData] = useState(initialState);
   const [error, setError] = useState(false);
+  const [open, setOpen] = useState(false);
   const { addTransaction } = useContext(ExpenseTrackerContext);
   const classes = useStyles();
 
@@ -51,6 +53,7 @@ const Form = () => {
     addTransaction(transaction);
     setFormData(initialState);
     setError(false);
+    setOpen(true);
   }
 
   const selectedCategories =
@@ -58,11 +61,7 @@ const Form = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography align="center" variant="subtitle2" gutterBottom>
-          speechly...
-        </Typography>
-      </Grid>
+      <CustomizedSnackbar open={open} setOpen={setOpen} />
       <Grid item xs={6}>
         <FormControl fullWidth>
           <InputLabel>Type</InputLabel>
